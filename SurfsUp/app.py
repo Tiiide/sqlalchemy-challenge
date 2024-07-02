@@ -53,12 +53,7 @@ def welcome():
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     # Convert the query results from your precipitation analysis (i.e. retrieve only the last 12 months of data) to a dictionary using date as the key and prcp as the value.
-    # Find the most recent date in the data set.
-    recent_date = session.query(Measurement.date).order_by(Measurement.date.desc()).first()
     previous_year = dt.date(2017, 8, 23) - dt.timedelta(days=365)
-
-    # convert to datetime
-    recent_date_value = dt.date(2017, 8, 23)
 
     prcp_data = session.query(Measurement.date, Measurement.prcp).filter(Measurement.date >= previous_year).order_by(Measurement.date).all()
 
@@ -75,7 +70,6 @@ def precipitation():
 def stations():
 
     results = session.query(Station.station).all()
-
 
     # Convert list of tuples into normal list
     all_stations = list(np.ravel(results))
